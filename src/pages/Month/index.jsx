@@ -1,6 +1,6 @@
 import { NavBar, DatePicker } from 'antd-mobile'
 import './index.scss'
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import classNames from 'classnames'
 import dayjs from 'dayjs'
 import { useSelector } from 'react-redux'
@@ -22,6 +22,7 @@ const Month = () => {
     const onConfirm = (date) => {
         setDateVisible(false)
         const formatDate = dayjs(date).format('YYYY-MM')
+        setCurrentDate(formatDate);
 
         if (!monthGroup[formatDate]) {
             setMonthList([])
@@ -29,11 +30,9 @@ const Month = () => {
         }
 
         setMonthList(monthGroup[formatDate])
-        setCurrentDate(formatDate);
     };
 
     const monthResult = useMemo(() => {
-        console.log(monthList)
         const calculateTotal = (type) =>
             monthList
                 .filter((item) => item.type === type)
@@ -48,6 +47,11 @@ const Month = () => {
             total: pay + income,
         };
     }, [monthList])
+
+    useEffect(() => {
+        const nowDate = dayjs().format('YYYY-MM');
+        setMonthList(monthGroup[nowDate] || []);
+    }, [monthGroup]);
 
     return (
         <div className="monthlyBill">
