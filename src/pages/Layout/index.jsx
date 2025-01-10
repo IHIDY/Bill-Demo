@@ -1,14 +1,14 @@
-import { TabBar } from "antd-mobile";
-import { useEffect } from "react";
-import { Outlet, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { getBillList } from "@/store/modules/billStore";
-import "./index.scss";
+import { TabBar } from "antd-mobile"
+import { useEffect } from "react"
+import { Outlet, useNavigate } from "react-router-dom"
+import { useDispatch } from "react-redux"
+import { getBillList } from "@/store/modules/billStore"
+import "./index.scss"
 import {
     BillOutline,
     CalculatorOutline,
     AddCircleOutline,
-} from "antd-mobile-icons";
+} from "antd-mobile-icons"
 
 const tabs = [
     {
@@ -29,11 +29,11 @@ const tabs = [
 ];
 
 const Layout = () => {
-    const dispatch = useDispatch();
+    const dispatch = useDispatch()
 
     useEffect(() => {
-        dispatch(getBillList());
-    }, [dispatch]);
+        dispatch(getBillList())
+    }, [dispatch])
 
     const navigate = useNavigate()
     const switchRoute = (path) => {
