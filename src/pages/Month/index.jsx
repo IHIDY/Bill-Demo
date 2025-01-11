@@ -5,6 +5,7 @@ import classNames from 'classnames'
 import dayjs from 'dayjs'
 import { useSelector } from 'react-redux'
 import _ from 'lodash'
+import DailyBill from './components/Day/index'
 
 const Month = () => {
     const [dateVisible, setDateVisible] = useState(false)
@@ -53,6 +54,15 @@ const Month = () => {
         setMonthList(monthGroup[nowDate] || []);
     }, [monthGroup]);
 
+    const dayGroup = useMemo(() => {
+        const groupData = _.groupBy(monthList, (item) => dayjs(item.date).format('YYYY-MM-DD'))
+        const keys = Object.keys(groupData)
+        return {
+            groupData,
+            keys,
+        }
+    }, [monthList])
+
     return (
         <div className="monthlyBill">
             <NavBar className="nav" backArrow={false}>
@@ -60,14 +70,13 @@ const Month = () => {
             </NavBar>
             <div className="content">
                 <div className="header">
-                    {/* 时间切换区域 */}
                     <div className="date" onClick={() => setDateVisible(true)}>
                         <span className="text">
                             {currentDate + ' '}月账单
                         </span>
                         <span className={classNames('arrow', dateVisible && 'expand')}></span>
                     </div>
-                    {/* 统计区域 */}
+
                     <div className='twoLineOverview'>
                         <div className="item">
                             <span className="money">{monthResult.pay.toFixed(2)}</span>
@@ -82,7 +91,7 @@ const Month = () => {
                             <span className="type">结余</span>
                         </div>
                     </div>
-                    {/* 时间选择器 */}
+
                     <DatePicker
                         className="kaDate"
                         title="记账日期"
@@ -94,6 +103,11 @@ const Month = () => {
                         max={new Date()}
                     />
                 </div>
+                {
+                    dayGroup.keys.map(key => {
+                        return <DailyBill key={key} date={key} billList={dayGroup.groupData[key]} />
+                    })
+                }
             </div>
         </div >
     )
