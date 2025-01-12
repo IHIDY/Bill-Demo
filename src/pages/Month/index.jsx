@@ -5,7 +5,7 @@ import classNames from 'classnames'
 import dayjs from 'dayjs'
 import { useSelector } from 'react-redux'
 import _ from 'lodash'
-import DailyBill from './components/Day/index'
+import DailyBill from '@/components/Day/index'
 
 const Month = () => {
     const [dateVisible, setDateVisible] = useState(false)
